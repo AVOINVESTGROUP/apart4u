@@ -1,0 +1,62 @@
+name: Unpack landing archive
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.zip'
+      - '.github/workflows/unpack-landing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Unpack uploaded archive to repository root
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ZIP_FILE="$(find . -maxdepth 1 -type f -name '*.zip' | head -n 1)"
+          if [ -z "$ZIP_FILE" ]; then
+            echo "No zip archive found in repository root"
+            exit 1
+          fi
+
+          echo "Using archive: $ZIP_FILE"
+          rm -rf /tmp/apart4u_unpack
+          mkdir -p /tmp/apart4u_unpack
+          unzip -o "$ZIP_FILE" -d /tmp/apart4u_unpack
+
+          # If the archive contains a single project folder, copy its contents.
+          ROOT_DIR="/tmp/apart4u_unpack"
+          if [ "$(find /tmp/apart4u_unpack -mindepth 1 -maxdepth 1 -type d | wc -l)" = "1" ] && [ "$(find /tmp/apart4u_unpack -mindepth 1 -maxdepth 1 -type f | wc -l)" = "0" ]; then
+            ROOT_DIR="$(find /tmp/apart4u_unpack -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+          fi
+
+          cp -R "$ROOT_DIR"/. .
+
+          # Keep the uploaded zip, but do not publish workflow temp files.
+          git status --short
+
+      - name: Commit unpacked files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Unpack landing archive"
+            git push
+          fi
