@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111d"/><stop offset=".68" stop-color="#020812"/><stop offset="1" stop-color="#17263a"/></linearGradient>
+    <radialGradient id="glow" cx="70%" cy="35%" r="55%"><stop offset="0" stop-color="#d9a441" stop-opacity=".28"/><stop offset="1" stop-color="#d9a441" stop-opacity="0"/></radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#28445f"/><stop offset="1" stop-color="#07101b"/></linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#sky)"/>
+  <rect width="640" height="400" fill="url(#glow)"/>
+  <path d="M80 255 L185 120 L275 255 Z M250 255 L385 75 L540 255 Z" fill="url(#glass)" stroke="#d9a441" stroke-width="4" opacity=".95"/>
+  <path d="M82 275 H548 V324 H82 Z" fill="#07101b" stroke="#d9a441" stroke-width="3"/>
+  <g opacity=".9" fill="#d9a441">
+    <rect x="150" y="205" width="26" height="34" rx="2"/><rect x="205" y="190" width="28" height="46" rx="2"/><rect x="265" y="215" width="27" height="34" rx="2"/>
+    <rect x="345" y="190" width="28" height="45" rx="2"/><rect x="405" y="205" width="26" height="36" rx="2"/><rect x="465" y="218" width="24" height="30" rx="2"/>
+  </g>
+  <g stroke="#d9a441" stroke-opacity=".25" stroke-width="1"><path d="M0 340 H640"/><path d="M0 360 H640"/><path d="M0 380 H640"/></g>
+  <text x="42" y="56" fill="#d9a441" font-family="Montserrat,Arial" font-size="22" letter-spacing="5">MTATSMINDA VIEW</text>
+</svg>
